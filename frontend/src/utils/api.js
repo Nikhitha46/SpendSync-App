@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance pointing to the backend
 const api = axios.create({
-    baseURL: 'http://localhost:5050/api', 
+    baseURL: 'https://spendsync-2ymn.onrender.com/api',
     headers: {
         'Content-Type': 'application/json'
     }
