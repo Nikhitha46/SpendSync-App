@@ -27,10 +27,10 @@ const Login = () => {
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[100px] pointer-events-none"></div>
 
-            <div className="w-full max-w-md bg-surface/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl relative z-10 transition-transform hover:scale-[1.01] duration-300">
+            <div className="w-full max-w-md bg-surface/80 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 md:p-10 shadow-2xl relative z-10">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Welcome Back</h2>
-                    <p className="text-slate-400 mt-2">Sign in to SpendSync to continue</p>
+                    <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Welcome Back</h2>
+                    <p className="text-sm text-slate-500 mt-2">Sign in to SpendSync to continue</p>
                 </div>
 
                 {error && (
@@ -49,7 +49,7 @@ const Login = () => {
                             <input
                                 type="email"
                                 required
-                                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-white placeholder-slate-500"
+                                className="w-full pl-11 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-white placeholder-slate-600"
                                 placeholder="you@example.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -69,7 +69,7 @@ const Login = () => {
                             <input
                                 type="password"
                                 required
-                                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-white placeholder-slate-500"
+                                className="w-full pl-11 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-white placeholder-slate-600"
                                 placeholder="••••••••"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -79,7 +79,7 @@ const Login = () => {
 
                     <button
                         type="submit"
-                        className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary transition-all duration-300 transform active:scale-[0.98]"
+                        className="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-2xl shadow-lg text-base font-black text-white bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary transition-all duration-300 transform active:scale-[0.98]"
                     >
                         <LogIn className="w-5 h-5 mr-2" />
                         Sign In

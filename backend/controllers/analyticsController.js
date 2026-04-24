@@ -5,11 +5,13 @@ const Expense = require('../models/Expense');
 // @access  Private
 const getAnalytics = async (req, res) => {
     try {
-        const { month } = req.query; // YYYY-MM
+        const { month, startDate: qStart, endDate: qEnd } = req.query; // YYYY-MM or ISO dates
         
         const query = { user: req.user._id };
         
-        if (month) {
+        if (qStart && qEnd) {
+            query.date = { $gte: new Date(qStart), $lte: new Date(qEnd) };
+        } else if (month) {
             const startDate = new Date(`${month}-01T00:00:00.000Z`);
             const endMonth = new Date(startDate);
             endMonth.setMonth(endMonth.getMonth() + 1);

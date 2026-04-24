@@ -4,7 +4,7 @@ import api from '../utils/api';
 import { UploadCloud, DownloadCloud, FileSpreadsheet, Check, AlertCircle } from 'lucide-react';
 
 const Profile = () => {
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
     const [importLoading, setImportLoading] = useState(false);
     const [importMessage, setImportMessage] = useState(null);
     const fileInputRef = useRef(null);
@@ -145,6 +145,22 @@ const Profile = () => {
                 </div>
             </div>
             
+            {/* Account Actions */}
+            <div className="bg-danger/5 border border-danger/20 rounded-3xl p-8 shadow-2xl relative overflow-hidden backdrop-blur-xl">
+                <h2 className="text-xl font-bold text-white mb-6 flex items-center">
+                    <AlertCircle className="w-6 h-6 text-danger mr-2" />
+                    Account Actions
+                </h2>
+                <div className="flex flex-col space-y-4">
+                    <p className="text-slate-400 text-sm">Logging out will end your current session on this device.</p>
+                    <button 
+                        onClick={logout}
+                        className="w-full md:w-auto px-8 py-3 bg-danger/10 hover:bg-danger text-danger hover:text-white border border-danger/30 rounded-xl font-bold transition-all duration-300"
+                    >
+                        Sign Out of SpendSync
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };

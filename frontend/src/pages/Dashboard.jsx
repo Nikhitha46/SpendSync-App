@@ -8,9 +8,9 @@ const DashboardCard = ({ title, value, icon: Icon, colorClass }) => (
         <div className={`absolute -right-4 -top-4 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-all duration-500`}></div>
         <div className="flex justify-between items-start mb-4">
             <div>
-                <p className="text-sm font-medium text-slate-400 mb-1">{title}</p>
-                <h3 className="text-3xl font-bold text-white tracking-tight flex items-center">
-                    <IndianRupee className="w-5 h-5 mr-1 text-slate-300" /> {value.toLocaleString()}
+                <p className="text-xs md:text-sm font-medium text-slate-400 mb-1">{title}</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight flex items-center">
+                    <IndianRupee className="w-4 h-4 md:w-5 md:h-5 mr-1 text-slate-300" /> {value.toLocaleString()}
                 </h3>
             </div>
             <div className={`p-3 bg-white/5 rounded-xl border border-white/5 ${colorClass}`}>
@@ -82,8 +82,8 @@ const Dashboard = () => {
         <div className="space-y-6">
             <header className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 space-y-4 md:space-y-0">
                 <div>
-                    <h1 className="text-3xl font-extrabold text-white mb-2">Overview</h1>
-                    <p className="text-slate-400">Here's your financial summary for {new Date(month + '-01').toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-1 md:mb-2">Overview</h1>
+                    <p className="text-sm text-slate-400">Financial summary for {new Date(month + '-01').toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
                 </div>
                 <input 
                     type="month" 
@@ -139,9 +139,9 @@ const Dashboard = () => {
                         </div>
                         <p className="text-emerald-200/60 text-sm max-w-md ml-14">This represents your combined portfolio savings trajectory since you began using SpendSync.</p>
                     </div>
-                    <div className="mt-8 md:mt-0 bg-black/20 px-8 py-5 rounded-2xl border border-white/5 backdrop-blur-sm self-stretch md:self-auto flex items-center justify-center">
-                        <h3 className="text-4xl md:text-5xl font-black text-white tracking-tight flex items-center">
-                            <IndianRupee className="w-8 h-8 md:w-10 md:h-10 text-emerald-400 mr-1 opacity-80" />
+                    <div className="mt-6 md:mt-0 bg-black/30 md:bg-black/20 px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/5 backdrop-blur-sm self-stretch md:self-auto flex items-center justify-center">
+                        <h3 className="text-3xl md:text-5xl font-black text-white tracking-tight flex items-center">
+                            <IndianRupee className="w-6 h-6 md:w-10 md:h-10 text-emerald-400 mr-1 opacity-80" />
                             {allTimeSavings.toLocaleString()}
                         </h3>
                     </div>

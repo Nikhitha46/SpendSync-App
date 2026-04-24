@@ -10,8 +10,13 @@ const Layout = ({ children }) => {
             </div>
 
             {/* Main scrollable content area */}
-            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-surface/50 md:rounded-2xl shadow-2xl md:ring-1 md:ring-white/10 p-4 md:p-6 relative pb-24 md:pb-6">
-                {children}
+            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-surface/30 md:bg-surface/50 md:rounded-2xl shadow-2xl md:ring-1 md:ring-white/10 relative pb-24 md:pb-6">
+                {/* Mobile-only top spacer for breathing room */}
+                <div className="h-12 md:hidden"></div>
+                
+                <div className="p-4 md:p-8 pt-6 md:pt-6 safe-area-pt">
+                    {children}
+                </div>
             </main>
 
             {/* Bottom navigation bar — only visible on mobile */}

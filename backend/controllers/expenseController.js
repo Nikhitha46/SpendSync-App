@@ -1,4 +1,5 @@
 const Expense = require('../models/Expense');
+const User = require('../models/User');
 
 // @desc    Get all expenses with filtering, sorting and search
 // @route   GET /api/expenses
@@ -7,10 +8,8 @@ const getExpenses = async (req, res) => {
     try {
         const { search, category, startDate, endDate, sort } = req.query;
 
-        // Base query - only current user's expenses
         const query = { user: req.user._id };
 
-        // Filtering
         if (category) {
             query.category = category;
         }
@@ -29,15 +28,14 @@ const getExpenses = async (req, res) => {
             query.description = { $regex: search, $options: 'i' };
         }
 
-        // Sorting
-        let sortOption = { date: -1, _id: -1 }; // default sort by latest date, then insertion order
+        let sortOption = { date: -1, _id: -1 };
         if (sort === 'amount_asc') sortOption = { amount: 1, _id: -1 };
         if (sort === 'amount_desc') sortOption = { amount: -1, _id: -1 };
         if (sort === 'date_asc') sortOption = { date: 1, _id: 1 };
         if (sort === 'date_desc') sortOption = { date: -1, _id: -1 };
 
         const expenses = await Expense.find(query).sort(sortOption);
-        
+
         res.status(200).json(expenses);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -86,6 +84,18 @@ const createExpense = async (req, res) => {
         });
 
         const createdExpense = await expense.save();
+
+        // Update User Vault Balance
+        const user = await User.findById(req.user._id);
+        if (user) {
+            if (createdExpense.transactionType === 'credit') {
+                user.vaultBalance += Number(amount);
+            } else {
+                user.vaultBalance -= Number(amount);
+            }
+            await user.save();
+        }
+
         res.status(201).json(createdExpense);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -107,13 +117,35 @@ const updateExpense = async (req, res) => {
             return res.status(401).json({ message: 'Not authorized to update this expense' });
         }
 
-        expense = await Expense.findByIdAndUpdate(
+        const oldAmount = expense.amount;
+        const oldType = expense.transactionType;
+
+        const updatedExpense = await Expense.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true, runValidators: true }
         );
 
-        res.status(200).json(expense);
+        // Adjust User Vault Balance
+        const user = await User.findById(req.user._id);
+        if (user) {
+            // Reverse old transaction
+            if (oldType === 'credit') {
+                user.vaultBalance -= oldAmount;
+            } else {
+                user.vaultBalance += oldAmount;
+            }
+
+            // Apply new transaction
+            if (updatedExpense.transactionType === 'credit') {
+                user.vaultBalance += updatedExpense.amount;
+            } else {
+                user.vaultBalance -= updatedExpense.amount;
+            }
+            await user.save();
+        }
+
+        res.status(200).json(updatedExpense);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -132,6 +164,17 @@ const deleteExpense = async (req, res) => {
 
         if (expense.user.toString() !== req.user._id.toString()) {
             return res.status(401).json({ message: 'Not authorized to delete this expense' });
+        }
+
+        // Reverse Vault balance before deleting
+        const user = await User.findById(req.user._id);
+        if (user) {
+            if (expense.transactionType === 'credit') {
+                user.vaultBalance -= expense.amount;
+            } else {
+                user.vaultBalance += expense.amount;
+            }
+            await user.save();
         }
 
         await expense.deleteOne();
